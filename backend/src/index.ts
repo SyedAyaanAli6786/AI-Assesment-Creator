@@ -8,6 +8,7 @@ import { initWebSocket } from './config/websocket';
 import assignmentRoutes from './routes/assignmentRoutes';
 import toolkitRoutes from './routes/toolkitRoutes';
 import libraryRoutes from './routes/libraryRoutes';
+import groupRoutes from './routes/groupRoutes';
 
 // Import worker to start it
 import './workers/generationWorker';
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/assignments', assignmentRoutes);
 app.use('/api/toolkit', toolkitRoutes);
 app.use('/api/library', libraryRoutes);
+app.use('/api/groups', groupRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

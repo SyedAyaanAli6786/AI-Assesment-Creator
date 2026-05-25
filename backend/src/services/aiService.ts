@@ -89,3 +89,21 @@ export async function generateToolkitContent(toolType: string, inputData: any): 
     throw new Error(`Failed to generate toolkit content: ${error.message}`);
   }
 }
+
+export async function generateParentReport(studentData: any): Promise<string> {
+  const prompt = `You are a teacher writing an email to a parent about their child's progress.
+Student Name: ${studentData.name}
+Recent Grades: ${JSON.stringify(studentData.grades)}
+
+Please write a professional, encouraging, and constructive email summarizing their performance. Highlight strengths and suggest areas for improvement based on these grades. Keep it concise (3-4 paragraphs).`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+    });
+    return response.text || '';
+  } catch (error: any) {
+    throw new Error(`Failed to generate parent report: ${error.message}`);
+  }
+}
