@@ -59,6 +59,26 @@
   --transition-slow: 300ms ease;
 }
 
+[data-theme='dark'] {
+  --bg-primary: #1F2937;
+  --bg-secondary: #111827;
+  --bg-sidebar: #1F2937;
+  --bg-card: #1F2937;
+  --bg-hover: #374151;
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --border-color: #374151;
+  --border-light: #1F2937;
+}
+
+[data-font-size='small'] .paperWrapper {
+  zoom: 0.85;
+}
+
+[data-font-size='large'] .paperWrapper {
+  zoom: 1.15;
+}
+
 * {
   margin: 0;
   padding: 0;

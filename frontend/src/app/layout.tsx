@@ -26,6 +26,16 @@ export default function RootLayout({
         />
       </head>
       <body style={{ display: 'flex', flexDirection: 'column' }}>
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              var theme = localStorage.getItem('veda_theme') || 'light';
+              var font = localStorage.getItem('veda_font') || 'medium';
+              document.documentElement.setAttribute('data-theme', theme);
+              document.documentElement.setAttribute('data-font-size', font);
+            } catch (e) {}
+          })();
+        ` }} />
         <MobileHeader />
         <div style={{ display: 'flex', flex: 1, width: '100%' }}>
           <Sidebar />
