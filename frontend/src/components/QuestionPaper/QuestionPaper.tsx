@@ -145,6 +145,20 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
 
   const actualMarks = paper.sections.reduce((sum, section) => sum + calculateSectionMarks(section), 0);
 
+  const isHindi = paper.subject.toLowerCase() === 'hindi';
+  const labels = {
+    subject: isHindi ? 'विषय (Subject)' : 'Subject',
+    class: isHindi ? 'कक्षा (Class)' : 'Class',
+    time: isHindi ? 'समय (Time Allowed)' : 'Time Allowed',
+    marks: isHindi ? 'अधिकतम अंक (Maximum Marks)' : 'Maximum Marks',
+    name: isHindi ? 'नाम (Name)' : 'Name',
+    rollNo: isHindi ? 'अनुक्रमांक (Roll Number)' : 'Roll Number',
+    section: isHindi ? 'खंड (Section)' : 'Section',
+    marksSuffix: isHindi ? 'अंक (Marks)' : 'Marks',
+    endOfPaper: isHindi ? '— प्रश्न पत्र समाप्त (End of Question Paper) —' : '— End of Question Paper —',
+    answerKey: isHindi ? 'उत्तर कुंजी (Answer Key)' : 'Answer Key',
+  };
+
   return (
     <div className={styles.container}>
       {/* Action Bar */}
@@ -187,12 +201,12 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
           <div className={styles.paperHeader}>
             <h1 className={styles.schoolName}>{paper.schoolName}</h1>
             <div className={styles.paperMeta}>
-              <span>Subject: {paper.subject}</span>
-              <span>Class: {paper.className}</span>
+              <span>{labels.subject}: {paper.subject}</span>
+              <span>{labels.class}: {paper.className}</span>
             </div>
             <div className={styles.paperInfo}>
-              <span>Time Allowed: {paper.timeAllowed}</span>
-              <span>Maximum Marks: {actualMarks}</span>
+              <span>{labels.time}: {paper.timeAllowed}</span>
+              <span>{labels.marks}: {actualMarks}</span>
             </div>
           </div>
 
@@ -208,15 +222,15 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
           {/* Student Info */}
           <div className={styles.studentInfo}>
             <div className={styles.infoLine}>
-              <span>Name:</span>
+              <span>{labels.name}:</span>
               <div className={styles.infoBlank}></div>
             </div>
             <div className={styles.infoLine}>
-              <span>Roll Number:</span>
+              <span>{labels.rollNo}:</span>
               <div className={styles.infoBlank}></div>
             </div>
             <div className={styles.infoLine}>
-              <span>Class: {paper.className} Section:</span>
+              <span>{labels.class}: {paper.className} {labels.section}:</span>
               <div className={styles.infoBlank}></div>
             </div>
           </div>
@@ -226,7 +240,7 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
             <div key={sIdx} className={styles.section}>
               <div style={{ width: '100%', textAlign: 'center', margin: '20px 0 10px 0' }}>
                 <strong style={{ fontSize: '16px', textDecoration: 'underline' }}>
-                  Section {String.fromCharCode(65 + sIdx)}
+                  {labels.section} {String.fromCharCode(65 + sIdx)}
                 </strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
@@ -234,7 +248,7 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
                   {toRoman(sIdx + 1)}. {section.sectionTitle}
                 </h3>
                 <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
-                  {calculateSectionMarks(section)} Marks
+                  {calculateSectionMarks(section)} {labels.marksSuffix}
                 </span>
               </div>
               <p className={styles.sectionInstruction}>{section.instruction}</p>
@@ -257,7 +271,7 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
                                 {q.difficulty}
                               </span>
                               <span className={styles.marks}>
-                                [{getQuestionMarks(q)} {getQuestionMarks(q) === 1 ? 'Mark' : 'Marks'}]
+                                [{getQuestionMarks(q)} {getQuestionMarks(q) === 1 ? (isHindi ? 'अंक' : 'Mark') : (isHindi ? 'अंक' : 'Marks')}]
                               </span>
                             </span>
                             {optionsText && (
@@ -276,17 +290,17 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
           ))}
 
           <div className={styles.endOfPaper}>
-            <p>— End of Question Paper —</p>
+            <p>{labels.endOfPaper}</p>
           </div>
 
           {/* Answer Key */}
           <div className={styles.answerKey}>
-            <h2 className={styles.answerKeyTitle}>Answer Key:</h2>
+            <h2 className={styles.answerKeyTitle}>{labels.answerKey}:</h2>
             {paper.sections.map((section, sIdx) => (
               <div key={sIdx} className={styles.answerSection}>
                 <div style={{ textAlign: 'center', marginTop: '16px', marginBottom: '8px' }}>
                   <strong style={{ fontSize: '14px', textDecoration: 'underline' }}>
-                    Section {String.fromCharCode(65 + sIdx)}
+                    {labels.section} {String.fromCharCode(65 + sIdx)}
                   </strong>
                 </div>
                 <h3 className={styles.sectionTitle} style={{ textAlign: 'left', marginTop: '8px', fontSize: '13px' }}>
