@@ -164,7 +164,7 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
               onClick={onEditConfig}
               disabled={isRegenerating}
             >
-              ⚙️ Edit Config
+              ⚙️ Modify Current Paper
             </button>
           )}
           {onRegenerate && (

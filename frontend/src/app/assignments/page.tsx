@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { HiOutlineFunnel, HiOutlineMagnifyingGlass, HiOutlinePlus } from 'react-icons/hi2';
@@ -15,6 +15,22 @@ export default function AssignmentsPage() {
   const router = useRouter();
   const { assignments, isLoading, fetchAssignments, searchQuery, setSearchQuery } = useStore();
   const [localSearch, setLocalSearch] = useState('');
+  
+  const [showFilters, setShowFilters] = useState(false);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [classFilter, setClassFilter] = useState('all');
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  // Close filters when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setShowFilters(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Initialize WebSocket
   useWebSocket();
@@ -30,6 +46,14 @@ export default function AssignmentsPage() {
     }, 300);
     return () => clearTimeout(timer);
   }, [localSearch, setSearchQuery, fetchAssignments]);
+
+  const uniqueClasses = Array.from(new Set(assignments.map(a => a.className))).sort();
+
+  const filteredAssignments = assignments.filter((assignment) => {
+    const matchesStatus = statusFilter === 'all' || assignment.status === statusFilter;
+    const matchesClass = classFilter === 'all' || assignment.className === classFilter;
+    return matchesStatus && matchesClass;
+  });
 
   return (
     <>
@@ -47,10 +71,67 @@ export default function AssignmentsPage() {
 
         {assignments.length > 0 && (
           <div className={styles.toolbar}>
-            <button className={styles.filterBtn}>
-              <HiOutlineFunnel />
-              Filter By
-            </button>
+            <div className={styles.filterWrapper} ref={filterRef}>
+              <button 
+                className={`${styles.filterBtn} ${showFilters ? styles.activeFilter : ''}`}
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                <HiOutlineFunnel />
+                Filter By
+                {(statusFilter !== 'all' || classFilter !== 'all') && (
+                  <span className={styles.filterBadge}>
+                    {(statusFilter !== 'all' ? 1 : 0) + (classFilter !== 'all' ? 1 : 0)}
+                  </span>
+                )}
+              </button>
+
+              {showFilters && (
+                <div className={styles.filterDropdown}>
+                  <div className={styles.filterGroup}>
+                    <label className={styles.filterGroupLabel}>Status</label>
+                    <select 
+                      className={styles.filterSelect}
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
+                    >
+                      <option value="all">All Statuses</option>
+                      <option value="completed">Completed</option>
+                      <option value="generating">Generating</option>
+                      <option value="draft">Draft</option>
+                      <option value="failed">Failed</option>
+                    </select>
+                  </div>
+                  
+                  {uniqueClasses.length > 0 && (
+                    <div className={styles.filterGroup}>
+                      <label className={styles.filterGroupLabel}>Class</label>
+                      <select 
+                        className={styles.filterSelect}
+                        value={classFilter}
+                        onChange={(e) => setClassFilter(e.target.value)}
+                      >
+                        <option value="all">All Classes</option>
+                        {uniqueClasses.map(cls => (
+                          <option key={cls} value={cls}>{cls}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                  
+                  {(statusFilter !== 'all' || classFilter !== 'all') && (
+                    <button 
+                      className={styles.clearFilterBtn}
+                      onClick={() => {
+                        setStatusFilter('all');
+                        setClassFilter('all');
+                      }}
+                    >
+                      Clear Filters
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
             <div className={styles.searchWrapper}>
               <HiOutlineMagnifyingGlass className={styles.searchIcon} />
               <input
@@ -71,10 +152,20 @@ export default function AssignmentsPage() {
           </div>
         ) : assignments.length === 0 ? (
           <EmptyState />
+        ) : filteredAssignments.length === 0 ? (
+          <div className={styles.noResults}>
+             <p>No assignments match your filters.</p>
+             <button 
+               className={styles.clearAllBtn}
+               onClick={() => { setStatusFilter('all'); setClassFilter('all'); setLocalSearch(''); }}
+             >
+               Clear Filters & Search
+             </button>
+          </div>
         ) : (
           <>
             <div className={styles.grid}>
-              {assignments.map((assignment, index) => (
+              {filteredAssignments.map((assignment, index) => (
                 <AssignmentCard
                   key={assignment._id}
                   assignment={assignment}
