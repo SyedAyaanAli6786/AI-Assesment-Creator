@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import styles from './page.module.css';
 import { HiOutlineArchiveBox, HiOutlineDocumentDuplicate, HiOutlineSquare3Stack3D } from 'react-icons/hi2';
+import { API_BASE } from '../../lib/api';
 
 const TABS = [
   { id: 'questions', name: 'Question Bank', icon: HiOutlineArchiveBox },
@@ -23,7 +24,7 @@ export default function LibraryPage() {
   const fetchData = async (tab: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/library/${tab}`);
+      const response = await fetch(`${API_BASE}/library/${tab}`);
       const result = await response.json();
       if (result.success) {
         setData(result.data);

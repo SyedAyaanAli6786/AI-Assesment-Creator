@@ -14,6 +14,7 @@ import {
   HiOutlinePlus,
   HiOutlineMicrophone,
 } from 'react-icons/hi2';
+import { API_BASE } from '../../lib/api';
 import { useStore } from '../../store/useStore';
 import styles from './CreateAssignment.module.css';
 
@@ -115,7 +116,7 @@ export default function CreateAssignment() {
       const blueprintName = prompt('Enter a name for this blueprint (e.g., "10th Grade Weekly Quiz"):');
       if (!blueprintName) return;
 
-      const response = await fetch('http://localhost:5000/api/library/blueprints', {
+      const response = await fetch(`${API_BASE}/library/blueprints`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

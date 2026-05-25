@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { HiOutlineDocumentText, HiOutlineLightBulb, HiOutlineBookOpen, HiOutlineUserCircle } from 'react-icons/hi2';
+import { API_BASE } from '../../lib/api';
 import Header from '../../components/Header/Header';
 import styles from './page.module.css';
 
@@ -24,7 +25,7 @@ export default function ToolkitPage() {
     setLoading(true);
     setResult('');
     try {
-      const response = await fetch('http://localhost:5000/api/toolkit/generate', {
+      const response = await fetch(`${API_BASE}/toolkit/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ toolType: activeTool, inputData }),

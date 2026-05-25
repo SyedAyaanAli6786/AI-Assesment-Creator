@@ -28,9 +28,25 @@
     align-items: center;
     gap: 16px;
   }
+  .notifBtnWrapper {
+    position: relative;
+  }
+  .mobileNotifDropdown {
+    top: 45px !important;
+    right: -50px !important;
+    width: 280px !important;
+    position: absolute !important;
+  }
+  .mobileMenuDropdown {
+    top: 45px !important;
+    right: 0 !important;
+    width: 250px !important;
+    position: absolute !important;
+  }
   .notifBtn {
     position: relative;
     display: flex;
+    cursor: pointer;
   }
   .notifDot {
     position: absolute;

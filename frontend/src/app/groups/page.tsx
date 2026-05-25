@@ -7,6 +7,7 @@ import {
   HiOutlineUserGroup, HiOutlinePlus, HiOutlineUsers,
   HiOutlineEnvelopeOpen, HiOutlineDocumentText, HiOutlineChartBar
 } from 'react-icons/hi2';
+import { API_BASE } from '../../lib/api';
 
 export default function GroupsPage() {
   const [groups, setGroups] = useState<any[]>([]);
@@ -25,7 +26,7 @@ export default function GroupsPage() {
 
   const fetchGroups = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/groups');
+      const res = await fetch(`${API_BASE}/groups`);
       const data = await res.json();
       if (data.success) {
         setGroups(data.data);
@@ -38,7 +39,7 @@ export default function GroupsPage() {
   const handleCreateGroup = async () => {
     if (!newGroupName) return;
     try {
-      const res = await fetch('http://localhost:5000/api/groups', {
+      const res = await fetch(`${API_BASE}/groups`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: newGroupName, type: newGroupType })
@@ -56,7 +57,7 @@ export default function GroupsPage() {
   const handleAddStudent = async () => {
     if (!newStudentName || !selectedGroup) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/groups/${selectedGroup._id}/students`, {
+      const res = await fetch(`${API_BASE}/groups/${selectedGroup._id}/students`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: newStudentName })
@@ -77,7 +78,7 @@ export default function GroupsPage() {
     if (!score || !max) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/groups/${selectedGroup._id}/grades`, {
+      const res = await fetch(`${API_BASE}/groups/${selectedGroup._id}/grades`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -104,7 +105,7 @@ export default function GroupsPage() {
     setGeneratingReport(true);
     setReportResult('');
     try {
-      const res = await fetch(`http://localhost:5000/api/groups/report`, {
+      const res = await fetch(`${API_BASE}/groups/report`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ studentData: student })

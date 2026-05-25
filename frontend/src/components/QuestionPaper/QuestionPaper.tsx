@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import { HiOutlineArrowDownTray, HiOutlineArrowPath, HiOutlineBookmark } from 'react-icons/hi2';
 import { GeneratedPaper } from '../../lib/types';
+import { API_BASE } from '../../lib/api';
 import styles from './QuestionPaper.module.css';
 
 interface QuestionPaperProps {
@@ -17,7 +18,7 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
 
   const handleSaveQuestion = async (q: any) => {
     try {
-      const response = await fetch('http://localhost:5000/api/library/questions', {
+      const response = await fetch(`${API_BASE}/library/questions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
