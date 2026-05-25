@@ -83,7 +83,13 @@ export default function Sidebar() {
         </button>
 
         {/* PROFILE CARD */}
-        <div className={styles.schoolInfo}>
+        <a 
+          href="https://www.google.com/search?q=dps+bokaro+school+online"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.schoolInfo}
+          style={{ textDecoration: 'none' }}
+        >
           <div className={styles.schoolAvatar}>
             <Image
               src="/school-avatar.png"
@@ -98,7 +104,7 @@ export default function Sidebar() {
             <span className={styles.schoolName}>Delhi Public School</span>
             <span className={styles.schoolLocation}>Bokaro Steel City</span>
           </div>
-        </div>
+        </a>
       </div>
     </aside>
   );
