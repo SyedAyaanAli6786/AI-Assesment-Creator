@@ -204,6 +204,28 @@
 .questionMain {
   display: flex;
   gap: 8px;
+  position: relative;
+}
+
+.saveQuestionBtn {
+  position: absolute;
+  top: 0;
+  right: -24px;
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0;
+  transition: all var(--transition-fast);
+}
+
+.questionMain:hover .saveQuestionBtn {
+  opacity: 1;
+}
+
+.saveQuestionBtn:hover {
+  color: var(--accent-orange);
 }
 
 .qNumber {

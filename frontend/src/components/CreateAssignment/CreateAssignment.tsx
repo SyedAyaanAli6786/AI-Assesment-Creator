@@ -109,6 +109,35 @@ export default function CreateAssignment() {
     }
   };
 
+  const handleSaveBlueprint = async () => {
+    if (!validateStep1() || !validateStep2()) return;
+    try {
+      const blueprintName = prompt('Enter a name for this blueprint (e.g., "10th Grade Weekly Quiz"):');
+      if (!blueprintName) return;
+
+      const response = await fetch('http://localhost:5000/api/library/blueprints', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: blueprintName,
+          subject: formData.subject,
+          className: formData.className,
+          questionTypes: formData.questionTypes,
+          timeAllowed: formData.additionalInstructions || 'Not specified',
+          generalInstructions: formData.additionalInstructions,
+        }),
+      });
+      if (response.ok) {
+        alert('Blueprint saved to Library!');
+      } else {
+        alert('Failed to save blueprint.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to save blueprint.');
+    }
+  };
+
   const handleFileDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setDragOver(false);
@@ -367,23 +396,32 @@ export default function CreateAssignment() {
             <HiOutlineArrowRight />
           </button>
         ) : (
-          <button
-            className={styles.nextBtn}
-            onClick={handleSubmit}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <span className={styles.btnSpinner} />
-                Generating...
-              </>
-            ) : (
-              <>
-                Next
-                <HiOutlineArrowRight />
-              </>
-            )}
-          </button>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              className={styles.prevBtn}
+              onClick={handleSaveBlueprint}
+              disabled={isLoading}
+            >
+              Save as Blueprint
+            </button>
+            <button
+              className={styles.nextBtn}
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span className={styles.btnSpinner} />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  Generate Paper
+                  <HiOutlineArrowRight />
+                </>
+              )}
+            </button>
+          </div>
         )}
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { HiOutlineArrowDownTray, HiOutlineArrowPath } from 'react-icons/hi2';
+import { HiOutlineArrowDownTray, HiOutlineArrowPath, HiOutlineBookmark } from 'react-icons/hi2';
 import { GeneratedPaper } from '../../lib/types';
 import styles from './QuestionPaper.module.css';
 
@@ -14,6 +14,31 @@ interface QuestionPaperProps {
 
 export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isRegenerating }: QuestionPaperProps) {
   const paperRef = useRef<HTMLDivElement>(null);
+
+  const handleSaveQuestion = async (q: any) => {
+    try {
+      const response = await fetch('http://localhost:5000/api/library/questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subject: paper.subject,
+          className: paper.className,
+          questionText: q.questionText,
+          difficulty: q.difficulty,
+          marks: q.marks,
+          answer: q.answer
+        }),
+      });
+      if (response.ok) {
+        alert('Question saved to Library!');
+      } else {
+        alert('Failed to save question.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to save question.');
+    }
+  };
 
   const handleDownloadPDF = () => {
     setTimeout(() => {
@@ -281,6 +306,13 @@ export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isReg
                             )}
                           </div>
                         </div>
+                        <button 
+                          className={styles.saveQuestionBtn}
+                          onClick={() => handleSaveQuestion(q)}
+                          title="Save to Question Bank"
+                        >
+                          <HiOutlineBookmark />
+                        </button>
                       </div>
                     </div>
                   );
