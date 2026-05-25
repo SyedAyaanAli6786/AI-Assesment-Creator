@@ -1,0 +1,95 @@
+.container {
+  padding: 24px 32px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-height));
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.loadingSpinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--accent-orange);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-height));
+}
+
+.errorText {
+  color: var(--error-red);
+  font-size: 14px;
+}
+
+.waitingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-height));
+  padding: 20px;
+}
+
+.waitingCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  text-align: center;
+  max-width: 400px;
+}
+
+.waitingCard h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.waitingCard p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.failedText {
+  color: var(--error-red) !important;
+  margin-top: 12px;
+}
+
+.retryBtn {
+  margin-top: 16px;
+  padding: 10px 24px;
+  background: var(--text-primary);
+  color: var(--text-white);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all var(--transition-base);
+}
+
+.retryBtn:hover {
+  background: #333;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+}

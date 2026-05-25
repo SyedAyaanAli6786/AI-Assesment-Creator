@@ -1,0 +1,280 @@
+/* ===== SIDEBAR CONTAINER ===== */
+/* w-64, min-h-screen, bg-white, flex flex-col justify-between,
+   px-4 py-6, rounded-tr-2xl rounded-br-2xl, shadow-sm */
+.sidebar {
+  width: var(--sidebar-width);
+  height: calc(100vh - 32px);
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 16px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.04);
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+/* ===== TOP SECTION ===== */
+.topSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ===== LOGO ===== */
+/* flex items-center gap-3 px-2 */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px;
+  cursor: pointer;
+  transition: opacity 150ms ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+/* w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center */
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* text-2xl font-semibold text-gray-800 */
+.logoText {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+  letter-spacing: -0.3px;
+}
+
+/* ===== CREATE BUTTON ===== */
+/* Pixel-perfect match to Figma: pill shape, 3px orange border, dark bg */
+.createBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  background: #1E1E1E;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  border: 3px solid #E8663C;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 200ms ease;
+  margin-top: 24px;
+  box-shadow: 0 4px 10px rgba(232, 102, 60, 0.35), 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.createBtn:hover {
+  background: #2A2A2A;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(232, 102, 60, 0.4), 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.createBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(232, 102, 60, 0.3), 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.createIcon {
+  font-size: 15px;
+  color: #FFFFFF;
+}
+
+/* ===== NAV ===== */
+/* flex flex-col gap-2 px-1, mt-8 from button */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 4px;
+  margin-top: 32px;
+  flex: 1;
+}
+
+/* ===== MENU ITEM ===== */
+/* flex items-center gap-3 px-3 py-2.5 rounded-lg,
+   text-gray-600 hover:bg-gray-100,
+   cursor-pointer transition-colors */
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  position: relative;
+}
+
+.navItem:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* ===== ACTIVE MENU ITEM ===== */
+/* bg-gray-100 text-gray-900 font-medium */
+.navItemActive {
+  background: #f3f4f6;
+  color: #111827;
+  font-weight: 500;
+}
+
+/* text-lg */
+.navIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.navItemActive .navIcon {
+  opacity: 1;
+}
+
+.navLabel {
+  flex: 1;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* ===== BADGE ===== */
+/* ml-auto bg-orange-500 text-white text-xs font-medium px-2 py-0.5 rounded-full */
+.badge {
+  margin-left: auto;
+  background: #f97316;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ===== BOTTOM SECTION ===== */
+/* mt-auto */
+.bottomSection {
+  margin-top: auto;
+}
+
+/* ===== PROFILE CARD ===== */
+/* flex items-center gap-3 p-3 rounded-xl bg-gray-50, mt-4 */
+.schoolInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-top: 16px;
+  background: rgb(240, 240, 240);
+  border-radius: 12px;
+}
+
+/* w-11 h-11 rounded-full object-cover */
+.schoolAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.schoolDetails {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* font-semibold text-sm text-gray-900 */
+.schoolName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* text-xs text-gray-500 */
+.schoolLocation {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Mobile sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    top: auto !important;
+    border-radius: 24px 24px 0 0 !important;
+    background: #111111 !important;
+    padding: 16px 12px 24px !important;
+    z-index: 1000 !important;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1) !important;
+  }
+  .topSection, .bottomSection {
+    display: none !important;
+  }
+  .nav {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+  }
+  .navItem {
+    flex-direction: column !important;
+    padding: 8px !important;
+    gap: 6px !important;
+    color: #666 !important;
+    background: transparent !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+  }
+  .navItemActive {
+    background: transparent !important;
+    color: #FFFFFF !important;
+  }
+  .navLabel {
+    font-size: 10px !important;
+    font-weight: 500 !important;
+  }
+  .badge {
+    position: absolute !important;
+    top: 4px !important;
+    right: 4px !important;
+    min-width: 16px !important;
+    height: 16px !important;
+    font-size: 10px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}

@@ -1,0 +1,53 @@
+.mobileHeader {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FFFFFF;
+    padding: 12px 16px;
+    border-radius: 16px;
+    margin: 16px 16px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logoText {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .notifBtn {
+    position: relative;
+    display: flex;
+  }
+  .notifDot {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    background: #FF4D4D;
+    border-radius: 50%;
+    border: 1px solid #FFF;
+  }
+  .avatar {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .hamburger {
+    font-size: 24px;
+    color: #1f2937;
+  }
+}
