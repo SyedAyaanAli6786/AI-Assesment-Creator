@@ -112,6 +112,240 @@
   color: var(--text-primary);
 }
 
+.notifWrapper {
+  position: relative;
+}
+
+.notifDropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 320px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  z-index: 100;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.notifHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.notifHeader h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.markRead {
+  font-size: 12px;
+  color: var(--accent-orange);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.markRead:hover {
+  text-decoration: underline;
+}
+
+.notifList {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notifItem {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  position: relative;
+}
+
+.notifItem:hover {
+  background: var(--bg-hover);
+}
+
+.notifItem.unread {
+  background: var(--bg-accent);
+}
+
+.notifItem.unread:hover {
+  background: #fdf5eb;
+}
+
+.notifDot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-orange);
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.notifContent p {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.notifContent span {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.notifFooter {
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-light);
+  cursor: pointer;
+  background: var(--bg-hover);
+}
+
+.notifFooter:hover {
+  color: var(--text-primary);
+}
+
+.profileWrapper {
+  position: relative;
+}
+
+.profileDropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 280px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  z-index: 100;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--bg-hover);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.profileAvatarLarge {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.profileHeader h4 {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.profileHeader p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.contactInfo {
+  margin-top: 4px !important;
+  font-size: 11px !important;
+  color: var(--text-tertiary) !important;
+}
+
+.profileProgress {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.progressPercent {
+  color: var(--accent-orange);
+}
+
+.progressBarBg {
+  width: 100%;
+  height: 6px;
+  background: var(--border-light);
+  border-radius: var(--radius-full);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: var(--accent-orange);
+  border-radius: var(--radius-full);
+}
+
+.profileProgress p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.profileLinks {
+  padding: 8px 0;
+}
+
+.profileBtn {
+  width: 100%;
+  text-align: left;
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.profileBtn:hover {
+  background: var(--bg-hover);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border-light);
+  margin: 4px 0;
+}
+
+.logoutBtn {
+  color: var(--error-red);
+}
+
+.logoutBtn:hover {
+  background: var(--error-bg);
+}
+
 @media (max-width: 768px) {
   .header {
     padding: 0 16px;
