@@ -67,10 +67,10 @@ export default function LibraryPage() {
                 <span>{b.subject} • {b.className} • {b.timeAllowed}</span>
               </div>
               <div className={styles.blueprintsList}>
-                {b.questionTypes.map((qt: any, i: number) => (
+                {(b.questionTypes || []).map((qt: any, i: number) => (
                   <div key={i} className={styles.blueprintItem}>
-                    <span>{qt.type}</span>
-                    <span>{qt.numberOfQuestions} Qs x {qt.marksPerQuestion} Marks</span>
+                    <span>{qt.type || 'Standard Question'}</span>
+                    <span>{qt.numberOfQuestions || 0} Qs x {qt.marksPerQuestion || 0} Marks</span>
                   </div>
                 ))}
               </div>
