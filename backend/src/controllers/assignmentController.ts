@@ -225,6 +225,40 @@ export const renameAssignment = async (req: Request, res: Response): Promise<voi
   }
 };
 
+export const updateAssignment = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { questionTypes, additionalInstructions, totalQuestions, totalMarks } = req.body;
+
+    const assignment = await Assignment.findByIdAndUpdate(
+      id,
+      { 
+        $set: { 
+          ...(questionTypes && { questionTypes }),
+          ...(additionalInstructions !== undefined && { additionalInstructions }),
+          ...(totalQuestions && { totalQuestions }),
+          ...(totalMarks && { totalMarks })
+        } 
+      },
+      { new: true }
+    ).select('-generatedPaper');
+
+    if (!assignment) {
+      res.status(404).json({ error: 'Assignment not found' });
+      return;
+    }
+
+    try {
+      const redis = getRedisClient();
+      await redis.del(`assignment:${id}`);
+    } catch (cacheError) {}
+
+    res.json({ assignment });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || 'Internal server error' });
+  }
+};
+
 export const regenerateAssignment = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;

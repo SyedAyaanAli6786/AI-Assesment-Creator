@@ -8,53 +8,17 @@ import styles from './QuestionPaper.module.css';
 interface QuestionPaperProps {
   paper: GeneratedPaper;
   onRegenerate?: () => void;
+  onEditConfig?: () => void;
   isRegenerating?: boolean;
 }
 
-export default function QuestionPaper({ paper, onRegenerate, isRegenerating }: QuestionPaperProps) {
+export default function QuestionPaper({ paper, onRegenerate, onEditConfig, isRegenerating }: QuestionPaperProps) {
   const paperRef = useRef<HTMLDivElement>(null);
 
-  const handleDownloadPDF = async () => {
-    if (!paperRef.current) return;
-    
-    try {
-      const html2canvas = (await import('html2canvas')).default;
-      const jsPDF = (await import('jspdf')).default;
-      
-      const canvas = await html2canvas(paperRef.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-      });
-      
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      
-      // Handle multi-page PDFs
-      const pageHeight = pdfHeight / ratio;
-      let heightLeft = imgHeight;
-      let position = 0;
-      
-      pdf.addImage(imgData, 'PNG', imgX, 0, imgWidth * ratio, imgHeight * ratio);
-      heightLeft -= pageHeight;
-      
-      while (heightLeft > 0) {
-        position -= pdfHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', imgX, position, imgWidth * ratio, imgHeight * ratio);
-        heightLeft -= pageHeight;
-      }
-      
-      pdf.save(`${paper.subject}_Question_Paper.pdf`);
-    } catch (error) {
-      console.error('PDF generation failed:', error);
-    }
+  const handleDownloadPDF = () => {
+    setTimeout(() => {
+      window.print();
+    }, 100);
   };
 
   const getDifficultyClass = (difficulty: string) => {
@@ -194,6 +158,15 @@ export default function QuestionPaper({ paper, onRegenerate, isRegenerating }: Q
             <HiOutlineArrowDownTray />
             Download as PDF
           </button>
+          {onEditConfig && (
+            <button 
+              className={styles.regenerateBtn} 
+              onClick={onEditConfig}
+              disabled={isRegenerating}
+            >
+              ⚙️ Edit Config
+            </button>
+          )}
           {onRegenerate && (
             <button 
               className={styles.regenerateBtn} 
@@ -251,6 +224,11 @@ export default function QuestionPaper({ paper, onRegenerate, isRegenerating }: Q
           {/* Sections */}
           {paper.sections.map((section, sIdx) => (
             <div key={sIdx} className={styles.section}>
+              <div style={{ width: '100%', textAlign: 'center', margin: '20px 0 10px 0' }}>
+                <strong style={{ fontSize: '16px', textDecoration: 'underline' }}>
+                  Section {String.fromCharCode(65 + sIdx)}
+                </strong>
+              </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                 <h3 className={styles.sectionTitle} style={{ marginBottom: 0 }}>
                   {toRoman(sIdx + 1)}. {section.sectionTitle}
@@ -265,20 +243,29 @@ export default function QuestionPaper({ paper, onRegenerate, isRegenerating }: Q
                 {section.questions.map((q, qIdx) => {
                   const { mainText, optionsText } = splitQuestionText(q.questionText);
                   const cleanMainText = mainText.replace(/^OR\b\s*-?\s*/i, '');
+                  const isMatchingQuestion = cleanMainText.includes('Column A') && cleanMainText.includes('Column B');
                   
                   return (
                     <div key={qIdx} className={styles.question}>
                       <div className={styles.questionMain}>
-                        <span className={styles.qNumber}>{qIdx + 1}.</span>
+                        {!isMatchingQuestion && <span className={styles.qNumber}>{qIdx + 1}.</span>}
                         <div className={styles.qContent}>
-                          <span className={styles.qText}>
+                          <div className={styles.qText}>
                             {renderQuestionContent(cleanMainText)}
+                            <span className={styles.qMeta}>
+                              <span className={`${styles.diffBadge} ${getDifficultyClass(q.difficulty)}`}>
+                                {q.difficulty}
+                              </span>
+                              <span className={styles.marks}>
+                                [{getQuestionMarks(q)} {getQuestionMarks(q) === 1 ? 'Mark' : 'Marks'}]
+                              </span>
+                            </span>
                             {optionsText && (
                               <span className={styles.optionsBlock} style={{ whiteSpace: 'pre-wrap' }}>
                                 {optionsText}
                               </span>
                             )}
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -297,7 +284,12 @@ export default function QuestionPaper({ paper, onRegenerate, isRegenerating }: Q
             <h2 className={styles.answerKeyTitle}>Answer Key:</h2>
             {paper.sections.map((section, sIdx) => (
               <div key={sIdx} className={styles.answerSection}>
-                <h3 className={styles.sectionTitle} style={{ textAlign: 'left', marginTop: '16px', fontSize: '13px' }}>
+                <div style={{ textAlign: 'center', marginTop: '16px', marginBottom: '8px' }}>
+                  <strong style={{ fontSize: '14px', textDecoration: 'underline' }}>
+                    Section {String.fromCharCode(65 + sIdx)}
+                  </strong>
+                </div>
+                <h3 className={styles.sectionTitle} style={{ textAlign: 'left', marginTop: '8px', fontSize: '13px' }}>
                   {toRoman(sIdx + 1)}. {section.sectionTitle}
                 </h3>
                 {section.questions.map((q, qIdx) => (

@@ -1,17 +1,20 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useStore } from '../../../store/useStore';
 import { useWebSocket } from '../../../lib/useWebSocket';
 import Header from '../../../components/Header/Header';
 import QuestionPaper from '../../../components/QuestionPaper/QuestionPaper';
 import GenerationProgress from '../../../components/GenerationProgress/GenerationProgress';
+import EditConfigModal from '../../../components/EditConfigModal/EditConfigModal';
 import styles from './page.module.css';
 
 export default function AssignmentDetailPage() {
   const params = useParams();
   const id = params.id as string;
+  
+  const [showEditConfig, setShowEditConfig] = useState(false);
 
   const {
     currentAssignment,
@@ -34,6 +37,23 @@ export default function AssignmentDetailPage() {
 
   const handleRegenerate = async () => {
     if (id) {
+      await regenerateAssignment(id);
+    }
+  };
+
+  const handleEditSave = async (questionTypes: any[], additionalInstructions: string) => {
+    if (id) {
+      setShowEditConfig(false);
+      const totalQuestions = questionTypes.reduce((sum, qt) => sum + qt.numberOfQuestions, 0);
+      const totalMarks = questionTypes.reduce((sum, qt) => sum + qt.numberOfQuestions * qt.marksPerQuestion, 0);
+      
+      const { updateAssignmentConfig } = useStore.getState();
+      await updateAssignmentConfig(id, {
+        questionTypes,
+        additionalInstructions,
+        totalQuestions,
+        totalMarks
+      });
       await regenerateAssignment(id);
     }
   };
@@ -87,9 +107,19 @@ export default function AssignmentDetailPage() {
           <QuestionPaper
             paper={currentAssignment.generatedPaper}
             onRegenerate={handleRegenerate}
+            onEditConfig={() => setShowEditConfig(true)}
             isRegenerating={isGenerating}
           />
         </div>
+        
+        {showEditConfig && (
+          <EditConfigModal
+            initialQuestionTypes={currentAssignment.questionTypes || []}
+            initialInstructions={currentAssignment.additionalInstructions || ''}
+            onClose={() => setShowEditConfig(false)}
+            onSave={handleEditSave}
+          />
+        )}
       </>
     );
   }

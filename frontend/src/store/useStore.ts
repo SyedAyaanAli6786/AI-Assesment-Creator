@@ -42,6 +42,7 @@ interface AppState {
   createAssignment: () => Promise<string | null>;
   deleteAssignment: (id: string) => Promise<void>;
   regenerateAssignment: (id: string) => Promise<void>;
+  updateAssignmentConfig: (id: string, updates: any) => Promise<void>;
   renameAssignment: (id: string, title: string) => Promise<void>;
   
   setGenerationProgress: (progress: GenerationProgress | null) => void;
@@ -194,6 +195,20 @@ export const useStore = create<AppState>((set, get) => ({
       }));
     } catch (error: any) {
       set({ error: error.message });
+    }
+  },
+
+  updateAssignmentConfig: async (id, updates) => {
+    try {
+      const data = await api.updateAssignment(id, updates);
+      set((state) => ({
+        currentAssignment: state.currentAssignment?._id === id 
+          ? { ...state.currentAssignment, ...data.assignment } 
+          : state.currentAssignment
+      }));
+    } catch (error: any) {
+      set({ error: error.message });
+      throw error;
     }
   },
 

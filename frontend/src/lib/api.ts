@@ -36,6 +36,16 @@ export const api = {
     return res.json();
   },
 
+  async updateAssignment(id: string, updates: any) {
+    const res = await fetch(`${API_BASE}/assignments/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates),
+    });
+    if (!res.ok) throw new Error('Failed to update assignment');
+    return res.json();
+  },
+
   async regenerateAssignment(id: string) {
     const res = await fetch(`${API_BASE}/assignments/${id}/regenerate`, {
       method: 'POST',

@@ -33,6 +33,8 @@ ${input.additionalInstructions ? `**Additional Instructions:** ${input.additiona
 4. Provide a concise answer for each question
 5. Questions should test different aspects and topics within the subject
 6. **CRITICAL:** For any "Multiple Choice Question" or MCQ, you MUST provide exactly 4 options (A, B, C, D) as part of the \`questionText\` string, separated by newlines. Do NOT ask a multiple choice question without providing the options!
+7. **CRITICAL FOR MATCH THE FOLLOWING:** If the question type is "Match the following" and the section asks for N questions, you MUST generate ONLY ONE single question object in the JSON array containing exactly N pairs to match. Do NOT generate N separate matching tables. Format the single question text with "Column A" numbered 1, 2, 3... and "Column B" lettered A, B, C... Combine the total marks for this one question.
+8. **INTERNAL CHOICES:** If the 'Additional Instructions' ask for choices (e.g., "attempt 5 out of 6", "provide an OR choice"), you MUST generate the full pool of questions requested (e.g., 6) in the array, and explicitly state the choice rule in that section's \`instruction\` field (e.g., "Attempt any 5 out of 6 questions. Each question carries X marks").
 
 **RESPOND IN THE FOLLOWING JSON FORMAT ONLY (no markdown, no code fences, pure JSON):**
 

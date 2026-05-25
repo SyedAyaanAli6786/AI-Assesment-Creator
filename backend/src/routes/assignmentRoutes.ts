@@ -7,6 +7,7 @@ import {
   regenerateAssignment,
   getJobStatus,
   renameAssignment,
+  updateAssignment,
 } from '../controllers/assignmentController';
 
 const router = Router();
@@ -15,6 +16,7 @@ const router = Router();
 router.post('/', createAssignment);
 router.get('/', getAssignments);
 router.get('/:id', getAssignment);
+router.put('/:id', updateAssignment);
 router.delete('/:id', deleteAssignment);
 
 // Regeneration & Updates

@@ -278,3 +278,9 @@
     justify-content: center !important;
   }
 }
+
+@media print {
+  .sidebar {
+    display: none !important;
+  }
+}
