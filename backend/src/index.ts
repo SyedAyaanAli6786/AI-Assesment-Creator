@@ -6,6 +6,7 @@ import { connectDB } from './config/database';
 import { connectRedis } from './config/redis';
 import { initWebSocket } from './config/websocket';
 import assignmentRoutes from './routes/assignmentRoutes';
+import toolkitRoutes from './routes/toolkitRoutes';
 
 // Import worker to start it
 import './workers/generationWorker';
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/assignments', assignmentRoutes);
+app.use('/api/toolkit', toolkitRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

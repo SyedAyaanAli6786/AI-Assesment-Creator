@@ -62,3 +62,30 @@ export async function generateQuestionPaper(input: AssignmentInput): Promise<Gen
     throw new Error(`Failed to generate question paper: ${error.message}`);
   }
 }
+
+export async function generateToolkitContent(toolType: string, inputData: any): Promise<string> {
+  let prompt = '';
+  
+  if (toolType === 'rubric') {
+    prompt = `Create a detailed grading rubric for the following assignment: "${inputData.description}". Max Marks: ${inputData.maxMarks}. Output the rubric in a professional Markdown table format. Include criteria like Content, Grammar, Structure, etc. as appropriate.`;
+  } else if (toolType === 'real_world') {
+    prompt = `I am a teacher teaching the topic: "${inputData.topic}". Generate 3-5 engaging, real-world scenarios, case studies, or mini-project ideas that connect this topic to everyday life or cool careers. Format nicely in Markdown.`;
+  } else if (toolType === 'simplifier') {
+    prompt = `Rewrite the following text into three different reading levels: 1) Below Level (simple vocabulary, shorter sentences), 2) On Level (standard), and 3) Above Level (advanced vocabulary, complex structure). \n\nText:\n${inputData.text}`;
+  } else if (toolType === 'report_card') {
+    prompt = `Write a professional, empathetic, and constructive 3-4 sentence report card comment for a student based on these tags/notes: "${inputData.tags}". Output only the comment paragraph.`;
+  } else {
+    throw new Error('Invalid tool type');
+  }
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+    });
+    return response.text || '';
+  } catch (error: any) {
+    console.error('AI Toolkit Generation Error:', error.message);
+    throw new Error(`Failed to generate toolkit content: ${error.message}`);
+  }
+}
