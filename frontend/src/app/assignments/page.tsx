@@ -47,11 +47,18 @@ export default function AssignmentsPage() {
     return () => clearTimeout(timer);
   }, [localSearch, setSearchQuery, fetchAssignments]);
 
-  const uniqueClasses = Array.from(new Set(assignments.map(a => a.className))).sort();
+  const normalizeClassName = (name: string) => {
+    if (!name) return 'Unknown';
+    const numMatch = name.match(/\d+/);
+    if (numMatch) return `Class ${numMatch[0]}`;
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
+
+  const uniqueClasses = Array.from(new Set(assignments.map(a => normalizeClassName(a.className)))).sort();
 
   const filteredAssignments = assignments.filter((assignment) => {
     const matchesStatus = statusFilter === 'all' || assignment.status === statusFilter;
-    const matchesClass = classFilter === 'all' || assignment.className === classFilter;
+    const matchesClass = classFilter === 'all' || normalizeClassName(assignment.className) === classFilter;
     return matchesStatus && matchesClass;
   });
 
@@ -178,8 +185,8 @@ export default function AssignmentsPage() {
                 className={styles.createFloatingBtn}
                 onClick={() => router.push('/assignments/create')}
               >
-                <HiOutlinePlus />
-                Create Assignment
+                <HiOutlinePlus className={styles.plusIcon} />
+                <span className={styles.createText}>Create Assignment</span>
               </button>
             </div>
           </>
