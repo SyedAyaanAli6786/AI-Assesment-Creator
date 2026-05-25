@@ -3,7 +3,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
-import { HiOutlineArrowLeft, HiOutlineSquares2X2 } from 'react-icons/hi2';
+import { 
+  HiOutlineArrowLeft, 
+  HiOutlineSquares2X2,
+  HiOutlineUserGroup,
+  HiOutlineWrenchScrewdriver,
+  HiOutlineBookOpen,
+  HiOutlineCog6Tooth
+} from 'react-icons/hi2';
 import styles from './Header.module.css';
 
 interface HeaderProps {
@@ -73,6 +80,14 @@ export default function Header({ title = 'Assignment', showBack = false }: Heade
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const getHeaderIcon = () => {
+    if (pathname.includes('/groups')) return <HiOutlineUserGroup className={styles.headerIcon} />;
+    if (pathname.includes('/toolkit')) return <HiOutlineWrenchScrewdriver className={styles.headerIcon} />;
+    if (pathname.includes('/library')) return <HiOutlineBookOpen className={styles.headerIcon} />;
+    if (pathname.includes('/settings')) return <HiOutlineCog6Tooth className={styles.headerIcon} />;
+    return <HiOutlineSquares2X2 className={styles.headerIcon} />;
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.left}>
@@ -81,7 +96,7 @@ export default function Header({ title = 'Assignment', showBack = false }: Heade
             <HiOutlineArrowLeft />
           </button>
         )}
-        <HiOutlineSquares2X2 className={styles.headerIcon} />
+        {getHeaderIcon()}
         <span className={styles.title}>{title}</span>
       </div>
       <div className={styles.right}>
