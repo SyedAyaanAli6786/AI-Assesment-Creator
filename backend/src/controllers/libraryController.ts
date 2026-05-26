@@ -11,11 +11,25 @@ export const getSavedQuestions = async (req: Request, res: Response) => {
   }
 };
 
-export const saveQuestion = async (req: Request, res: Response) => {
+export const saveQuestion = async (req: Request, res: Response): Promise<any> => {
   try {
+    const existing = await SavedQuestion.findOne({ questionText: req.body.questionText });
+    if (existing) {
+      return res.status(400).json({ success: false, message: 'Question already exists in library' });
+    }
     const question = new SavedQuestion(req.body);
     await question.save();
     res.json({ success: true, data: question });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteSavedQuestion = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await SavedQuestion.findByIdAndDelete(id);
+    res.json({ success: true, message: 'Question deleted' });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }

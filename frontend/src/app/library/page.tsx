@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import styles from './page.module.css';
-import { HiOutlineArchiveBox, HiOutlineDocumentDuplicate, HiOutlineSquare3Stack3D } from 'react-icons/hi2';
+import { HiOutlineArchiveBox, HiOutlineDocumentDuplicate, HiOutlineSquare3Stack3D, HiOutlineTrash } from 'react-icons/hi2';
 import { API_BASE } from '../../lib/api';
 
 const TABS = [
@@ -35,6 +35,24 @@ export default function LibraryPage() {
     setLoading(false);
   };
 
+  const handleDeleteQuestion = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this question?')) return;
+    
+    try {
+      const res = await fetch(`${API_BASE}/library/questions/${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setData(data.filter((q) => q._id !== id));
+      } else {
+        alert('Failed to delete question');
+      }
+    } catch (err) {
+      console.error('Error deleting question:', err);
+      alert('Failed to delete question');
+    }
+  };
+
   const renderContent = () => {
     if (loading) return <div className={styles.loading}>Loading...</div>;
     if (data.length === 0) return <div className={styles.empty}>Nothing saved here yet.</div>;
@@ -44,11 +62,20 @@ export default function LibraryPage() {
         <div className={styles.grid}>
           {data.map((q: any) => (
             <div key={q._id} className={styles.card}>
-              <div className={styles.cardMeta}>
-                <span className={styles.badge}>{q.subject}</span>
-                <span className={styles.badge}>{q.className}</span>
-                <span className={`${styles.badge} ${styles['diff' + q.difficulty]}`}>{q.difficulty}</span>
-                <span className={styles.marks}>{q.marks} Marks</span>
+              <div className={styles.cardHeader}>
+                <div className={styles.cardMeta}>
+                  <span className={styles.badge}>{q.subject}</span>
+                  <span className={styles.badge}>{q.className}</span>
+                  <span className={`${styles.badge} ${styles['diff' + q.difficulty]}`}>{q.difficulty}</span>
+                  <span className={styles.marks}>{q.marks} Marks</span>
+                </div>
+                <button 
+                  className={styles.deleteBtn} 
+                  onClick={() => handleDeleteQuestion(q._id)}
+                  title="Delete Question"
+                >
+                  <HiOutlineTrash size={18} />
+                </button>
               </div>
               <p className={styles.questionText}>{q.questionText}</p>
               {q.answer && <div className={styles.answer}><strong>Answer:</strong> {q.answer}</div>}
