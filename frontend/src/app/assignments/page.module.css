@@ -106,7 +106,7 @@
 
 .filterBadge {
   background: var(--text-primary);
-  color: white;
+  color: var(--bg-primary);
   font-size: 10px;
   font-weight: 700;
   padding: 2px 6px;
@@ -195,7 +195,7 @@
 .clearAllBtn {
   padding: 8px 16px;
   background: var(--text-primary);
-  color: white;
+  color: var(--bg-primary);
   border: none;
   border-radius: var(--radius-sm);
   font-size: 13px;

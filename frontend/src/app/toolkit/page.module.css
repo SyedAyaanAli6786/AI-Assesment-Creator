@@ -132,7 +132,7 @@
 .generateBtn {
   margin-top: 8px;
   background: var(--text-primary);
-  color: white;
+  color: var(--bg-primary);
   border: none;
   padding: 12px 24px;
   border-radius: var(--radius-md);

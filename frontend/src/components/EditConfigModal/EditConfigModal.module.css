@@ -154,7 +154,7 @@
 .saveBtn {
   padding: 10px 20px;
   background: var(--text-primary);
-  color: white;
+  color: var(--bg-primary);
   border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 600;
