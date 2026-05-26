@@ -65,10 +65,18 @@
   --bg-sidebar: #1F2937;
   --bg-card: #1F2937;
   --bg-hover: #374151;
+  --bg-accent: #2d1607;
   --text-primary: #F9FAFB;
   --text-secondary: #9CA3AF;
   --border-color: #374151;
   --border-light: #1F2937;
+  --accent-orange-light: #3f1802;
+  --success-bg: #064e3b;
+  --warning-bg: #422006;
+  --error-bg: #450a0a;
+  --difficulty-easy-bg: #064e3b;
+  --difficulty-moderate-bg: #422006;
+  --difficulty-hard-bg: #450a0a;
 }
 
 [data-font-size='small'] .paperWrapper {

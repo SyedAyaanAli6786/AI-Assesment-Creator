@@ -111,7 +111,7 @@
 .groupIcon {
   font-size: 20px;
   color: var(--accent-orange);
-  background: white;
+  background: var(--bg-card);
   padding: 6px;
   border-radius: 8px;
   width: 32px;
@@ -268,7 +268,7 @@
 
 .subGroupBadge {
   padding: 6px 16px;
-  background: #f0fdf4;
+  background: var(--success-bg);
   color: #16a34a;
   border: 1px solid #bbf7d0;
   border-radius: var(--radius-full);

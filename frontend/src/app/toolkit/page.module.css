@@ -37,7 +37,7 @@
   padding: 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
-  background: white;
+  background: var(--bg-card);
   text-align: left;
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -85,7 +85,7 @@
 }
 
 .card, .resultCard {
-  background: white;
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 24px;

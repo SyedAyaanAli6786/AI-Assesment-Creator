@@ -4,7 +4,7 @@
 .sidebar {
   width: var(--sidebar-width);
   height: calc(100vh - 32px);
-  background: #FFFFFF;
+  background: var(--bg-card);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -129,14 +129,14 @@
 }
 
 .navItem:hover {
-  background: #f3f4f6;
+  background: var(--bg-hover);
   color: #111827;
 }
 
 /* ===== ACTIVE MENU ITEM ===== */
 /* bg-gray-100 text-gray-900 font-medium */
 .navItemActive {
-  background: #f3f4f6;
+  background: var(--bg-hover);
   color: #111827;
   font-weight: 500;
 }

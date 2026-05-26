@@ -13,7 +13,7 @@
 }
 
 .modal {
-  background: white;
+  background: var(--bg-card);
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 650px;
@@ -140,7 +140,7 @@
 .cancelBtn {
   padding: 10px 16px;
   border: 1px solid var(--border-color);
-  background: white;
+  background: var(--bg-card);
   color: var(--text-primary);
   border-radius: var(--radius-md);
   font-size: 14px;

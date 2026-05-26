@@ -180,7 +180,7 @@
 }
 
 .notifItem.unread:hover {
-  background: #fdf5eb;
+  background: var(--accent-orange-light);
 }
 
 .notifDot {
