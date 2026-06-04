@@ -1,0 +1,245 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        208,
+        -64
+      ],
+      "id": "9cbac7ff-a0fb-42b4-9e42-cc2660475239",
+      "name": "When chat message received",
+      "webhookId": "d47a4bd9-1fb9-4bd8-8b40-3bd5d96fc0e7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following request: {{ $json.chatInput }}\n\nExtract the main subject, a short topic summary, and the number of questions requested (default to 5 if not mentioned).\n",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        368,
+        80
+      ],
+      "id": "da5b4eeb-0126-40fe-bf7f-68275f8990da",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        304,
+        288
+      ],
+      "id": "d86b479d-2c3a-4565-a3bf-0c16aae1d8dc",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "tuMrK1PYId2JcUAM",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"subject\": {\n      \"type\": \"string\",\n      \"description\": \"The main subject like Science or Math\"\n    },\n    \"summary\": {\n      \"type\": \"string\",\n      \"description\": \"Short summary of the topic\"\n    },\n    \"question_count\": {\n      \"type\": \"number\",\n      \"description\": \"Number of questions requested\"\n    }\n  },\n  \"required\": [\n    \"subject\",\n    \"summary\",\n    \"question_count\"\n  ]\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        256
+      ],
+      "id": "f3b4ee29-96a7-4c28-8d30-806f0d0f8387",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output.subject }}",
+                    "rightValue": "Science",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "b7c9b3cf-a658-48f2-bd95-67592a3dd597"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "7f011ce3-5f2f-4df3-9599-2b19790d5ee1",
+                    "leftValue": "={{ $json.output.subject }}",
+                    "rightValue": "Math",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        80
+      ],
+      "id": "e44be6ed-ca19-45ea-be4a-d296bf176e5b",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert Science teacher. Generate a quiz based on these requirements:\nSubject: {{ $json.output.subject }}\nTopic: {{ $json.output.summary }}\nNumber of Questions: {{ $json.output.question_count }}\n\nFormat your response as a simple list of questions and answers.\n",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        928,
+        -16
+      ],
+      "id": "5489d2ea-b3df-42cd-ae36-f14122db2a13",
+      "name": "Basic LLM Chain1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        864,
+        192
+      ],
+      "id": "e1123284-b3a9-4247-9163-63ff152cc2ce",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "tuMrK1PYId2JcUAM",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "81cde16a-f274-46ca-9db0-e0248a381c24",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "991a7cf276fb4ad26c92642ebdad0c5ae9baa2b49f3afcb69c240da5b5ab9eeb"
+  },
+  "id": "949FTi5NcQz60YhF",
+  "tags": []
+}
