@@ -158,6 +158,30 @@
           "name": "Google Gemini(PaLM) Api account"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://jsonplaceholder.typicode.com/posts",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "quiz_content",
+              "value": "={{ $json.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1280,
+        -16
+      ],
+      "id": "d4b8954e-0683-48d0-9835-26c5f7a5d0b5",
+      "name": "HTTP Request"
     }
   ],
   "pinData": {},
@@ -227,6 +251,17 @@
           }
         ]
       ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -235,7 +270,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "81cde16a-f274-46ca-9db0-e0248a381c24",
+  "versionId": "973084ea-b911-4e65-ac4e-e0ad6d2bf6cd",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "991a7cf276fb4ad26c92642ebdad0c5ae9baa2b49f3afcb69c240da5b5ab9eeb"
