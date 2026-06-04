@@ -21,3 +21,24 @@ Our workflow employs a mix of AI reasoning and deterministic control logic, movi
 - **Routing & Deterministic Control:** A Switch node deterministically determines the execution path based on the AI's JSON output, proving the combination of AI and traditional control logic.
 - **Dynamic Variable Injection:** The Generator AI dynamically consumes the structured variables extracted by the Planner AI.
 - **Tool & Integration Usage:** The workflow concludes with an HTTP Request node, demonstrating how the agentic pipeline pushes data into external systems (database) rather than just acting as a conversational bot.
+
+## 4. Sample Input & Output
+
+**Sample Input (Raw User Text):**
+> "I need a quiz for my students about the solar system. Give me 4 questions."
+
+**Intermediate AI Extraction (Structured JSON):**
+```json
+{
+  "subject": "Science",
+  "summary": "Solar System",
+  "question_count": 4
+}
+```
+
+**Final Output (Sent via HTTP Request):**
+```json
+{
+  "quiz_content": "Here is your quiz on the Solar System:\n\n1. **Question:** What is the name of the star at the center of our solar system?\n   **Answer:** The Sun\n\n2. **Question:** Which planet is known for its prominent system of rings?\n   **Answer:** Saturn\n\n3. **Question:** What is the largest planet in our solar system?\n   **Answer:** Jupiter\n\n4. **Question:** What is the name of the natural satellite that orbits Earth?\n   **Answer:** The Moon"
+}
+```
