@@ -1,5 +1,7 @@
 # Agentic Workflow Design: Syllabus-to-Assignment Pipeline
 
+![n8n Workflow Screenshot](./workflow-screenshot.png)
+
 ## 1. Problem Statement
 **Target User:** Teachers and Educators.
 **Pain Point:** Creating customized, high-quality assessments is a time-consuming manual process. Teachers often have a raw syllabus or a loosely structured list of topics and struggle to quickly convert these into structured assignments with the correct difficulty and question types.
