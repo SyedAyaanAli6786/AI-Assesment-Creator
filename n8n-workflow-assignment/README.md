@@ -20,5 +20,3 @@ Our workflow employs a mix of AI reasoning and deterministic control logic, movi
 - **Routing & Deterministic Control:** A Switch node deterministically determines the execution path based on the AI's JSON output, proving the combination of AI and traditional control logic.
 - **Dynamic Variable Injection:** The Generator AI dynamically consumes the structured variables extracted by the Planner AI.
 
-## 4. Individual Contribution Note
-*(If applicable, insert your specific contributions here. E.g., "I designed the AI routing logic and implemented the structured output parser to ensure the AI cleanly separated subjects before generating the questions.")*
