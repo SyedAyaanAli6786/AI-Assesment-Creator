@@ -6,6 +6,7 @@ const connection = {
   port: config.redis.port,
   username: config.redis.username,
   password: config.redis.password,
+  ...(config.redis.host !== 'localhost' ? { tls: {} } : {})
 };
 
 export const generationQueue = new Queue('question-generation', {
@@ -19,6 +20,10 @@ export const generationQueue = new Queue('question-generation', {
     removeOnComplete: { age: 3600 },
     removeOnFail: { age: 86400 },
   },
+});
+
+generationQueue.on('error', (err) => {
+  console.error('❌ BullMQ Queue Error:', err.message || err);
 });
 
 console.log('✅ BullMQ Queue initialized');

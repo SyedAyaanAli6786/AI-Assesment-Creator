@@ -11,6 +11,7 @@ const connection = {
   port: config.redis.port,
   username: config.redis.username,
   password: config.redis.password,
+  ...(config.redis.host !== 'localhost' ? { tls: {} } : {})
 };
 
 export const generationWorker = new Worker(
@@ -104,6 +105,10 @@ generationWorker.on('completed', (job) => {
 
 generationWorker.on('failed', (job, err) => {
   console.error(`❌ Worker: Job ${job?.id} failed:`, err.message);
+});
+
+generationWorker.on('error', (err) => {
+  console.error(`❌ BullMQ Worker Error:`, err.message || err);
 });
 
 console.log('✅ Generation worker started');
