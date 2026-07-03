@@ -26,7 +26,7 @@ export const generationWorker = new Worker(
     try {
       // Update status to processing
       await Assignment.findByIdAndUpdate(assignmentId, { status: 'generating' });
-      
+
       // Notify frontend
       notifyClient(assignmentId, {
         type: 'status_update',
