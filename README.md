@@ -1,4 +1,4 @@
-# VedaAI - AI Assessment Creator
+# AI Assessment Creator
 
 An AI-powered assessment creation tool that allows teachers to create assignments, generate question papers using AI, and view the structured output with answer keys.
 
